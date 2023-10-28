@@ -1,37 +1,22 @@
-// import { ApolloServer } from '@apollo/server';
-// import { startStandaloneServer } from '@apollo/server/standalone';
-
-// // The GraphQL schema
-// const typeDefs = `#graphql
-//   type Query {
-//     hello: String
-//   }
-// `;
-
-// // A map of functions which return data for the schema.
-// const resolvers = '';
-
-// const server = new ApolloServer({
-//   typeDefs,
-//   resolvers,
-// });
-
-// const { url } = await startStandaloneServer(server);
-// console.log(`🚀 Server ready at ${url}`);
-
-const express = require('express');
 const { ApolloServer } = require('@apollo/server');
-const { path } = require('path');
+const gql = require('graphql-tag');
+const { startStandaloneServer } = require('@apollo/server/standalone');
+const { readFileSync } = require('fs');
+const path = require('path'); // Dosya yollarını işlemek için path modülünü içe aktarıyoruz
 
-const resolvers = require('./graphql/resolvers/index');
+// GraphQL şema dosyasının tam yolunu belirle
+const schemaPath = path.join(__dirname, 'graphql/types/schema.graphql');
+const typeDefs = readFileSync(schemaPath, 'utf8');
+
+// Resolver dosyasının tam yolunu belirle
+const resolversPath = path.join(__dirname, 'graphql/resolvers/index');
+const resolvers = require(resolversPath);
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
 });
 
-const app = express();
-server.applyMiddleware({ app });
-app.listen({ port: 4001 }, () => {
-  console.log(`🚀 Server ready at http://localhost:4001${server.graphqlPath}`);
-});
+const { url } = startStandaloneServer(server);
+
+console.log(`🚀 Server ready at ${url}`);

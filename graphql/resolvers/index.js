@@ -1,10 +1,5 @@
-const Query = {
-  user: (parent, args) => {
-    return {
-      name: 'Mehmet',
-      surname: 'Seven',
-    };
-  },
-};
+const Query = require('./queries/Query');
 
-module.exports = Query;
+module.exports = {
+  Query,
+};

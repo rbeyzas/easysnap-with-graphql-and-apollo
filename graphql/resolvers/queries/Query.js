@@ -1,13 +1,10 @@
 const Query = {
   user: (parent, args) => {
     return {
-      name: 'beyza',
-      surname: 'sarıkaya',
+      name: 'Beyza',
+      surname: 'Sarıkaya',
     };
   },
 };
-const Query = require('./queries/Query');
 
-module.exports = {
-  Query,
-};
+module.exports = Query;
